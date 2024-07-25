@@ -1,0 +1,21 @@
+# Set default behavior to automatically normalize line endings.
+* text=auto
+
+# Specify file types that should retain LF line endings.
+*.sh text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+
+# Ignore node_modules folder
+node_modules/* -text
+
+# Explicitly declare text files you want to keep as LF in the repo
+*.js text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.json text eol=lf
+
+# Set binary files to be untouched
+*.jpg binary
+*.png binary
+*.gif binary
