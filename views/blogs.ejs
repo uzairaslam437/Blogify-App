@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head") %>
+    <title>Blog</title>
+</head>
+<style>
+  pre {
+      white-space: pre-wrap; /* Wraps text to next line when it reaches the end of the container */
+      word-wrap: break-word; /* Allows words to break if necessary */
+      overflow: auto; /* Hides horizontal scrollbar */
+  }
+</style>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary " data-bs-theme="dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Blogify</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <% if(locals.user){ %>
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#">Blog</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/blog/add-blog">Add Blog</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Settings
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/user/logout">Logout</a></li>
+                  </ul>
+                </li>
+              <% }else{ %>
+                <li class="nav-item">
+                  <a class="nav-link" href="/user/signin">Sign In</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/user/signup">Create User</a>
+                </li>
+                <% } %>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    <div class="container mt-3">
+        <div class="col">
+              <img src="<%= blog.coverImageUrl %>" class="img-fluid mb-3" alt="Blog Cover Image" />
+                <h5 class="container mt-3 mb-3"><%= blog.title %></h5>
+                <pre> <%= blog.body  %>  </pre>
+                <div class="container">
+                    <img src="<%= blog.createdBy.profileImageUrl %>" width="25px" alt="Author Profile Image">
+                    <%= blog.createdBy.fullName %> 
+                </div>
+        </div>
+    </div>
+    <div class="container mt-3">
+      <h1 class="mb-4">Comments</h1>
+      <% if (locals.user) { %>
+      <form action="/blog/comment/<%= blog._id %>" method="post" class="mb-4">
+          <div class="input-group">
+              <input
+                  type="text"
+                  name="content"
+                  class="form-control"
+                  placeholder="Enter your comment"
+                  required
+              />
+              <div class="input-group-append">
+                  <button class="btn btn-primary" type="submit">Add</button>
+              </div>
+          </div>
+      </form>
+      <% } %>
+      <div class="list-group">
+          <% comments.forEach(comment => { %>
+              <div class="list-group-item comment d-flex align-items-start">
+                  <img src="<%= comment.createdBy.profileImageUrl %>" width="40" alt="Profile Image">
+                  <div class="ml-3">
+                      <h6 class="mb-1"><%= comment.createdBy.fullName %></h6>
+                      <p class="comment-content"><%= comment.content %></p>
+                  </div>
+              </div>
+          <% }) %>
+      </div>
+  </div>
+    <%- include("./partials/scripts") %>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head") %>
+    <title>Homepage</title>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary " data-bs-theme="dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Blogify</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <% if(locals.user){ %>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Blog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/add-blog">Add Blog</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Settings
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/user/logout">Logout</a></li>
+              </ul>
+            </li>
+          <% }else{ %>
+            <li class="nav-item">
+              <a class="nav-link" href="/user/signin">Sign In</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/user/signup">Create User</a>
+            </li>
+            <% } %>
+        </ul>
+      </div>
+    </div>
+  </nav>
+    <div class="container mt-3">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+          <% allBlogs.forEach(blog => { %>
+            <div class="col">
+              <div class="card h-100">
+                <img src="<%= blog.coverImageUrl %>" class="card-img-top" alt="Blog Cover Image" />
+                <div class="card-body">
+                  <h5 class="card-title"><%= blog.title %></h5>
+                  <a href="/blog/<%= blog._id %>" class="btn btn-primary">View</a>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+    <%- include("./partials/scripts") %>
+</body>
+</html>
